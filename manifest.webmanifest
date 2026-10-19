@@ -1,0 +1,20 @@
+{
+  "name": "贪吃蛇在线玩",
+  "short_name": "贪吃蛇",
+  "description": "免费在线玩的经典贪吃蛇小游戏，支持键盘和手机触屏操作。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#05070d",
+  "theme_color": "#05070d",
+  "lang": "zh-CN",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

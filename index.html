@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>贪吃蛇在线玩 - 经典贪吃蛇小游戏，免安装打开即玩</title>
+<meta name="description" content="免费在线玩经典贪吃蛇小游戏，打开网页立刻开始，无需下载安装。支持电脑键盘方向键/WASD 和手机屏幕触屏按钮操作，自动记录最高分，吃得越多速度越快。电脑、平板、手机都能玩。">
+<meta name="keywords" content="贪吃蛇,贪吃蛇在线玩,贪吃蛇小游戏,网页版贪吃蛇,免费小游戏,手机贪吃蛇,经典游戏">
+<meta name="author" content="Snake Game">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#05070d">
+<link rel="canonical" href="https://holycrosswitteth788-alt.github.io/snake-game/">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="贪吃蛇在线玩">
+<meta property="og:title" content="贪吃蛇在线玩 - 经典贪吃蛇小游戏">
+<meta property="og:description" content="打开网页即玩，无需安装。支持键盘和手机触屏操作，自动记录最高分。">
+<meta property="og:url" content="https://holycrosswitteth788-alt.github.io/snake-game/">
+<meta property="og:locale" content="zh_CN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="贪吃蛇在线玩 - 经典贪吃蛇小游戏">
+<meta name="twitter:description" content="打开网页即玩，无需安装。支持键盘和手机触屏操作。">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="favicon.svg">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="manifest" href="manifest.webmanifest">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "VideoGame",
+  "name": "贪吃蛇在线玩",
+  "url": "https://holycrosswitteth788-alt.github.io/snake-game/",
+  "description": "免费在线玩的经典贪吃蛇小游戏，支持键盘方向键、WASD 与手机触屏按钮操作。",
+  "applicationCategory": "GameApplication",
+  "operatingSystem": "Any",
+  "genre": "Arcade",
+  "gamePlatform": "Web browser",
+  "playMode": "SinglePlayer",
+  "inLanguage": "zh-CN",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "CNY"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "贪吃蛇小游戏需要下载安装吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "不需要。这是一个纯网页版的贪吃蛇小游戏，用浏览器打开网页就能直接玩，电脑、平板和手机上都可以运行，不会占用存储空间。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "手机上怎么操作贪吃蛇？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "手机端在游戏画面下方提供了四个方向按钮，按住即可转向；也可以直接在游戏区域用手指滑动来改变方向，支持上滑、下滑、左滑、右滑四个方向。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "贪吃蛇的最高分会保存吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "会。最高分保存在浏览器本地存储中，关闭页面后再次打开仍然保留，换浏览器或清除浏览器数据会重置。"
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "游戏会越来越难吗？",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "会。每吃掉一个食物得 10 分，蛇身变长一节，同时移动速度会逐步提升，分数越高节奏越快，对反应和路线规划的要求也越高。"
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>贪吃蛇在线玩</h1>
+  <p class="tagline">打开网页立刻开玩 · 键盘和手机触屏都支持 · 免安装</p>
+</header>
+
+<main>
+  <section class="game-shell" aria-label="贪吃蛇游戏区域">
+    <div class="hud" role="status" aria-live="polite">
+      <div class="hud-item">
+        <span class="hud-label">得分</span>
+        <span class="hud-value" id="score">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">最高分</span>
+        <span class="hud-value" id="best">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">长度</span>
+        <span class="hud-value" id="length">3</span>
+      </div>
+    </div>
+
+    <div class="stage">
+      <canvas id="game" width="520" height="520" aria-label="贪吃蛇游戏画面"></canvas>
+
+      <div class="overlay" id="overlay">
+        <div class="overlay-card">
+          <h2 id="overlay-title">准备开始</h2>
+          <p id="overlay-text">按方向键 / WASD 开始，手机请点下方按钮</p>
+          <button class="btn btn-primary" id="start-btn" type="button">开始游戏</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="dpad" aria-label="方向控制按钮">
+      <button class="dpad-btn dpad-up" data-dir="up" type="button" aria-label="向上">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5l7 9H5z"/></svg>
+      </button>
+      <button class="dpad-btn dpad-left" data-dir="left" type="button" aria-label="向左">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l9-7v14z"/></svg>
+      </button>
+      <button class="dpad-btn dpad-pause" id="pause-btn" type="button" aria-label="暂停或继续">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="7" y="6" width="3.5" height="12" rx="1"/><rect x="13.5" y="6" width="3.5" height="12" rx="1"/></svg>
+      </button>
+      <button class="dpad-btn dpad-right" data-dir="right" type="button" aria-label="向右">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12l-9 7V5z"/></svg>
+      </button>
+      <button class="dpad-btn dpad-down" data-dir="down" type="button" aria-label="向下">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 19l-7-9h14z"/></svg>
+      </button>
+    </div>
+
+    <p class="hint">电脑：方向键 / WASD 转向，空格暂停，回车重开</p>
+  </section>
+
+  <section class="content-block">
+    <h2>怎么玩这个贪吃蛇</h2>
+    <p>贪吃蛇是最经典的街机小游戏之一，规则简单但耐玩：你控制一条不断移动的小蛇，吃掉画面上的食物就能让身体变长，同时得分增加。蛇碰到墙壁或者咬到自己的身体，游戏就结束了。目标是在有限的空间里规划好路线，尽可能吃得更多。</p>
+    <p>这个网页版还原了最原汁原味的玩法。画面是 20×20 的方格战场，每个食物值 10 分，每吃一个蛇身就长一节。随着分数上涨，蛇的移动速度会逐步加快，前期可以随意游走，后期必须提前想好转弯时机，这也是贪吃蛇真正上瘾的地方。</p>
+  </section>
+
+  <section class="content-block">
+    <h2>操作方式</h2>
+    <ul class="ops-list">
+      <li><strong>电脑键盘</strong>：方向键 ↑ ↓ ← → 控制方向，也可以用 W A S D 四个字母键，适合习惯左手操作的人。</li>
+      <li><strong>手机触屏</strong>：画面下方有四个方向按钮，按住就能转向；也可以直接在游戏画面上滑动手指，上滑下方向上走，左右滑动同理。</li>
+      <li><strong>暂停与重开</strong>：键盘空格键暂停或继续，回车键立即重开一局；手机上点中间的暂停按钮。</li>
+    </ul>
+    <p>游戏会自动记住你在这台设备上的最高分，下次打开还能看到，方便冲榜和自我对比。</p>
+  </section>
+
+  <section class="content-block">
+    <h2>几个实用的小技巧</h2>
+    <ol class="tips-list">
+      <li><strong>别贴墙走。</strong>新手最容易犯的错是沿着边界一路直冲，速度一快就来不及转弯。尽量让蛇在场地中间活动，留出反应距离。</li>
+      <li><strong>用绕圈代替直线。</strong>沿着固定的矩形路线循环，蛇身会自然排成整齐的形状，不容易把自己堵死。</li>
+      <li><strong>提前一个身位想好下一步。</strong>速度提升后，按键到实际转向有延迟感，习惯在蛇头还有两格到达拐角时就开始转向。</li>
+      <li><strong>短蛇时贪，长蛇时稳。</strong>蛇身短的时候可以放开吃，身体越长越要保守，绕大圈不要贪一时的高分。</li>
+    </ol>
+  </section>
+
+  <section class="content-block faq">
+    <h2>常见问题</h2>
+    <details>
+      <summary>贪吃蛇小游戏需要下载安装吗？</summary>
+      <p>不需要。这是纯网页版游戏，用浏览器打开就能玩，电脑、平板、手机都支持，不占存储空间，也不会弹广告。</p>
+    </details>
+    <details>
+      <summary>手机上怎么操作贪吃蛇？</summary>
+      <p>画面下方的四个方向按钮可以按住转向，也可以直接在游戏区域滑动手指。建议横屏或竖屏都可以，画面会自动适配屏幕宽度。</p>
+    </details>
+    <details>
+      <summary>最高分会保存吗？</summary>
+      <p>会保存在浏览器本地，关掉页面再打开依然保留。如果换了浏览器或清理了浏览器数据，记录会重置。</p>
+    </details>
+    <details>
+      <summary>游戏会越来越难吗？</summary>
+      <p>会。每得 10 分蛇身加长一节，移动速度也会逐步提升，分数越高节奏越快。</p>
+    </details>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <p>贪吃蛇在线玩 · 纯网页版经典小游戏 · 无需安装，永久免费</p>
+</footer>
+
+<script src="assets/game.js" defer></script>
+</body>
+</html>

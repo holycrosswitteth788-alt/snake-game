@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://holycrosswitteth788-alt.github.io/snake-game/sitemap.xml

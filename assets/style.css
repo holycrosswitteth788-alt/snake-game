@@ -1,0 +1,348 @@
+:root {
+  --bg: #05070d;
+  --bg-soft: #0a1220;
+  --panel: rgba(12, 22, 36, 0.72);
+  --line: rgba(57, 255, 20, 0.14);
+  --green: #39ff14;
+  --green-soft: #7dffb0;
+  --green-deep: #0b7a35;
+  --pink: #ff2d95;
+  --text: #dce8f5;
+  --muted: #7b8ea3;
+  --radius: 16px;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  padding: 0 16px 56px;
+  min-height: 100vh;
+  background:
+    radial-gradient(1100px 620px at 50% -12%, rgba(57, 255, 20, 0.09), transparent 62%),
+    radial-gradient(760px 460px at 92% 8%, rgba(255, 45, 149, 0.07), transparent 60%),
+    linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 46%, #05070d 100%);
+  background-attachment: fixed;
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  line-height: 1.7;
+  overscroll-behavior-y: contain;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(57, 255, 20, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(57, 255, 20, 0.035) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(circle at 50% 26%, #000 0%, transparent 76%);
+  -webkit-mask-image: radial-gradient(circle at 50% 26%, #000 0%, transparent 76%);
+  z-index: 0;
+}
+
+.site-header,
+main,
+.site-footer {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.site-header {
+  padding: 44px 0 22px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0 0 10px;
+  font-size: clamp(1.75rem, 5.2vw, 2.6rem);
+  letter-spacing: 0.06em;
+  font-weight: 800;
+  color: #eafff0;
+  text-shadow: 0 0 18px rgba(57, 255, 20, 0.55), 0 0 44px rgba(57, 255, 20, 0.22);
+}
+
+.tagline {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+  letter-spacing: 0.02em;
+}
+
+/* ---------- 游戏区 ---------- */
+.game-shell {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(8px);
+}
+
+.hud {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.hud-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 6px;
+  border-radius: 10px;
+  background: rgba(57, 255, 20, 0.05);
+  border: 1px solid rgba(57, 255, 20, 0.12);
+}
+
+.hud-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--muted);
+}
+
+.hud-value {
+  font-family: var(--mono);
+  font-size: 1.42rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--green);
+  text-shadow: 0 0 12px rgba(57, 255, 20, 0.5);
+  line-height: 1.2;
+}
+
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #04060a;
+  border: 1px solid rgba(57, 255, 20, 0.2);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.9), 0 0 26px rgba(57, 255, 20, 0.12);
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(4, 6, 10, 0.78);
+  backdrop-filter: blur(3px);
+  transition: opacity 0.22s ease, visibility 0.22s ease;
+}
+
+.overlay[hidden] {
+  display: grid;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.overlay-card {
+  text-align: center;
+  max-width: 300px;
+}
+
+.overlay-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.34rem;
+  color: var(--green-soft);
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 16px rgba(57, 255, 20, 0.4);
+}
+
+.overlay-card p {
+  margin: 0 0 18px;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.btn {
+  font: inherit;
+  cursor: pointer;
+  border-radius: 999px;
+  border: 1px solid rgba(57, 255, 20, 0.5);
+  padding: 11px 30px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #04140a;
+  background: linear-gradient(180deg, #7dffb0, var(--green));
+  box-shadow: 0 0 22px rgba(57, 255, 20, 0.45);
+  transition: transform 0.12s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover { box-shadow: 0 0 30px rgba(57, 255, 20, 0.7); }
+.btn:active { transform: scale(0.97); }
+
+/* ---------- 方向键 ---------- */
+.dpad {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+  width: min(232px, 62vw);
+  margin: 18px auto 0;
+  aspect-ratio: 1 / 1;
+  touch-action: none;
+}
+
+.dpad-btn {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 1px solid rgba(57, 255, 20, 0.26);
+  background: linear-gradient(180deg, rgba(57, 255, 20, 0.1), rgba(57, 255, 20, 0.03));
+  color: var(--green-soft);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: background 0.12s ease, transform 0.1s ease, box-shadow 0.12s ease;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.dpad-btn svg {
+  width: 42%;
+  height: 42%;
+  fill: currentColor;
+  filter: drop-shadow(0 0 6px rgba(57, 255, 20, 0.6));
+}
+
+.dpad-btn:active,
+.dpad-btn.is-pressed {
+  background: rgba(57, 255, 20, 0.24);
+  box-shadow: 0 0 20px rgba(57, 255, 20, 0.4);
+  transform: scale(0.94);
+}
+
+.dpad-up { grid-area: 1 / 2; }
+.dpad-left { grid-area: 2 / 1; }
+.dpad-pause { grid-area: 2 / 2; color: var(--muted); }
+.dpad-right { grid-area: 2 / 3; }
+.dpad-down { grid-area: 3 / 2; }
+
+.hint {
+  margin: 14px 0 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+@media (min-width: 760px) and (hover: hover) and (pointer: fine) {
+  .dpad { display: none; }
+}
+
+/* ---------- 正文内容 ---------- */
+.content-block {
+  margin-top: 34px;
+}
+
+.content-block h2 {
+  font-size: 1.16rem;
+  margin: 0 0 12px;
+  padding-left: 11px;
+  border-left: 3px solid var(--green);
+  color: #e8fff0;
+  letter-spacing: 0.03em;
+}
+
+.content-block p {
+  margin: 0 0 12px;
+  color: #b8c9d9;
+  font-size: 0.955rem;
+  text-align: justify;
+}
+
+.ops-list,
+.tips-list {
+  margin: 0 0 12px;
+  padding-left: 1.25em;
+  color: #b8c9d9;
+  font-size: 0.955rem;
+}
+
+.ops-list li,
+.tips-list li {
+  margin-bottom: 9px;
+}
+
+.ops-list strong,
+.tips-list strong {
+  color: var(--green-soft);
+  font-weight: 700;
+}
+
+.faq details {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background: rgba(57, 255, 20, 0.035);
+}
+
+.faq summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: #d9f2e2;
+  list-style: none;
+}
+
+.faq summary::-webkit-details-marker { display: none; }
+
+.faq summary::before {
+  content: "+";
+  display: inline-block;
+  width: 1.2em;
+  color: var(--green);
+  font-weight: 700;
+}
+
+.faq details[open] summary::before { content: "−"; }
+
+.faq details p {
+  margin: 10px 0 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.site-footer {
+  margin-top: 46px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.site-footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #5c6d80;
+}
+
+@media (max-width: 420px) {
+  .game-shell { padding: 12px; }
+  .hud-value { font-size: 1.2rem; }
+  body { padding: 0 12px 40px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+}
